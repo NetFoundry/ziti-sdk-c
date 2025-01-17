@@ -321,7 +321,11 @@ static const char *basename(const char *path) {
 }
 
 void ziti_logger(int level, const char *module, const char *file, unsigned int line, const char *func, FORMAT_STRING(const char *fmt), ...) {
+#ifdef ZITI_DEBUG
+    static size_t loglinelen = 32768;
+#else
     static size_t loglinelen = 1024;
+#endif
 
     log_writer logfunc = logger;
     if (logfunc == NULL) { return; }
